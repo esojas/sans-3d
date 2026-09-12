@@ -1067,7 +1067,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   healthBar: {fileID: 1427112509}
   maxHealth: 92
-  tookDamage: 0
 --- !u!114 &519647935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,6 +1083,7 @@ MonoBehaviour:
   drainRate: 1
   isDraining: 0
   karmaMaxStack: 40
+  isKarmaRefill: 0
 --- !u!1 &599957966
 GameObject:
   m_ObjectHideFlags: 0

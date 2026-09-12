@@ -18,7 +18,7 @@ public class PlayerControls : MonoBehaviour
     private InputAction moveAction;
     private InputAction interactAction;
     private InputAction jumpAction;
-    //private InputAction pauseAction;
+    private InputAction pauseAction;
     private InputAction onUnPausedAction;
 
     private Action<InputAction.CallbackContext> onMovePerformed;
@@ -38,7 +38,7 @@ public class PlayerControls : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
         interactAction = InputSystem.actions.FindAction("Interact");
         jumpAction = InputSystem.actions.FindAction("Jump");
-        //pauseAction = InputSystem.actions.FindAction("PausedButton");
+        pauseAction = InputSystem.actions.FindAction("PausedButton");
 
         onUnPausedAction = InputSystem.actions.FindAction("UnpausedButton");
 
@@ -62,7 +62,7 @@ public class PlayerControls : MonoBehaviour
         interactAction.performed += onInteractPerfomed;
         jumpAction.performed += onJumpPerformed;
         jumpAction.canceled += onJumpCancelled;
-        //pauseAction.performed += onPausePerformed;
+        pauseAction.performed += onPausePerformed;
 
         onUnPausedAction.performed += onUnPausedPerformed;
 
@@ -77,7 +77,7 @@ public class PlayerControls : MonoBehaviour
         interactAction.performed += onInteractPerfomed;
         jumpAction.performed -= onJumpPerformed;
         jumpAction.canceled -= onJumpCancelled;
-        //pauseAction.performed -= onPausePerformed;
+        pauseAction.performed -= onPausePerformed;
 
         onUnPausedAction.performed -= onUnPausedPerformed;
 

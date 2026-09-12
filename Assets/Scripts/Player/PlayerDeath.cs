@@ -16,22 +16,22 @@ public class PlayerDeath : MonoBehaviour
 
     private bool isDead = false;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == 3) // 3 means harmfullobstacles
-        {
-            HandleDeath();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.layer == 3) // 3 means harmfullobstacles
+    //    {
+    //        HandleDeath();
+    //    }
+    //}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Catches solid objects without "Is Trigger" checked
-        if (collision.gameObject.layer == 3)
-        {
-            HandleDeath();
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    // Catches solid objects without "Is Trigger" checked
+    //    if (collision.gameObject.layer == 3)
+    //    {
+    //        HandleDeath();
+    //    }
+    //}
 
     private void HandleDeath()
     {
@@ -104,9 +104,5 @@ public class PlayerDeath : MonoBehaviour
         timeRemaining = playerLifetime;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
