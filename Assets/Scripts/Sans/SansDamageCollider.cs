@@ -17,7 +17,7 @@ public class SansDamageCollider : MonoBehaviour
     {
         if (other.gameObject.layer != 7) return;
         playerKarma = other.gameObject.GetComponent<PlayerKarma>();
-        playerKarma.ApplyKarmaDrainRate(1f);
+        playerKarma.ApplyKarmaDrainRate(1.5f);
     }
 
     private void OnTriggerExit(Collider other)

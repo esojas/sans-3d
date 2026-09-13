@@ -54,8 +54,8 @@ public class PlayerKarma : MonoBehaviour
         ApplyKarmaDrainRate(0);
         karmaStack -= karmaStackDrainRate * Time.deltaTime;
         karmaStack = Mathf.Clamp(karmaStack, 0f, karmaMaxStack);
-        Debug.LogWarning("Applied karmaStackDrainRate: " + karmaStackDrainRate);
-        Debug.LogWarning("Applied karma is being reduce to: " + karmaStack);
+        //Debug.LogWarning("Applied karmaStackDrainRate: " + karmaStackDrainRate);
+        //Debug.LogWarning("Applied karma is being reduce to: " + karmaStack);
         if (karmaStack <= 0f) isKarmaRefill = false;
     }
 

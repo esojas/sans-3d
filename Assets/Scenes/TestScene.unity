@@ -853,6 +853,7 @@ GameObject:
   - component: {fileID: 519647931}
   - component: {fileID: 519647935}
   - component: {fileID: 519647934}
+  - component: {fileID: 519647936}
   m_Layer: 7
   m_Name: Player-Test
   m_TagString: Untagged
@@ -1029,15 +1030,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   movementSpeed: 12
-  acceleration: 20
-  deceleration: 25
-  jumpForce: 5
+  acceleration: 35
+  deceleration: 55
   groundCheckRadius: 2
   layerToHit:
     serializedVersion: 2
     m_Bits: 8
   cam: {fileID: 330585545}
-  jumpCooldownTimer: 1
+  jumpForce: 5
+  jumpCooldownTimer: 0.1
+  maxJump: 1
+  maxJumpForce: 10
+  jumpBufferTime: 0.1
+  gravityScale: 2
+  fallGravityMult: 1
+  maxFallSpeed: 5
   groundCheck: {fileID: 1863365036}
   deathThisFrame: 0
   isVisible: 0
@@ -1067,7 +1074,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   healthBar: {fileID: 1427112509}
   maxHealth: 92
-  tookDamage: 0
 --- !u!114 &519647935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,6 +1090,19 @@ MonoBehaviour:
   drainRate: 1
   isDraining: 0
   karmaMaxStack: 40
+  isKarmaRefill: 0
+--- !u!114 &519647936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519647923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bdaff1e5d5b4e1458d087bd2001c357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHeal
 --- !u!1 &599957966
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,7 +2301,7 @@ GameObject:
   - component: {fileID: 1822760499}
   - component: {fileID: 1822760498}
   - component: {fileID: 1822760497}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2522,7 +2541,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1863365035}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.6, z: 0}
   m_LocalScale: {x: 1.04, y: 1.04, z: 1.04}
   m_ConstrainProportionsScale: 1
@@ -2557,7 +2576,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1863365035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

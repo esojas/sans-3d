@@ -20,6 +20,13 @@ public class PlayerHealth : MonoBehaviour
         health = Mathf.Clamp(health, 1f, maxHealth);
     }
 
+    public void HealPlayer(float heal)
+    {
+        health += heal;
+
+        health = Mathf.Clamp(health, 0f, maxHealth);
+    }
+
     private void UpdateHealthBar()
     {
         healthBar.value = health;

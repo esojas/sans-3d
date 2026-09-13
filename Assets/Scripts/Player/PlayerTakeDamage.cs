@@ -5,16 +5,6 @@ public class PlayerTakeDamage : MonoBehaviour
     private PlayerHealth playerHealthScript;
     private PlayerKarma playerKarmaScript;
 
-    //private void TakeDamage()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        playerHealthScript.TakeDamage(1);
-    //        playerKarmaScript.isDraining = true;
-    //        Debug.Log("TakeDamage");
-    //    }
-    //}
-
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer != 6) return;

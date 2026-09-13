@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem.XR;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,17 +12,23 @@ public class PlayerMovement : MonoBehaviour
     bool jumpPressed = false;
     private float jumpCooldownTimerValue = 0f;
     private Vector3 lastVelocity;
-
+    private int jumpCount = 0;
+    private float jumpBufferCounter;
+    private float totalJumpForce;
 
     [SerializeField] private float movementSpeed;
     [SerializeField] private float acceleration = 20f;
     [SerializeField] private float deceleration = 25f;
-    [SerializeField] private float jumpForce;
     //[SerializeField] private float distanceToGround;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask layerToHit;
     [SerializeField] private Camera cam;
+    [Header("JumpSettings")]
+    [SerializeField] private float jumpForce;
     [SerializeField] private float jumpCooldownTimer;
+    [SerializeField] private int maxJump = 1;
+    [SerializeField] private float maxJumpForce = 7f;
+    [SerializeField] private float jumpBufferTime = 0.2f;
     [Header("Collision")]
     [SerializeField] private Transform groundCheck;
 
@@ -37,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     {
         playerControlScript.OnMove -= HandleDirection;
         playerControlScript.OnJumpPressed -= JumpPressed;
+        playerControlScript.OnJumpReleased -= JumpReleased;
     }
 
     private void Awake()
@@ -51,19 +59,21 @@ public class PlayerMovement : MonoBehaviour
     {
         playerControlScript.OnMove += HandleDirection;
         playerControlScript.OnJumpPressed += JumpPressed;
+        playerControlScript.OnJumpReleased += JumpReleased;
     }
 
     private void Update()
     {
+        ResetJumpCounter();
+        HandleJump();
         if (jumpCooldownTimerValue > 0) jumpCooldownTimerValue -= Time.deltaTime;
+        if (jumpPressed) jumpBufferCounter = jumpBufferTime;
+        else jumpBufferCounter -= Time.deltaTime;
     }
 
     void FixedUpdate()
     {
         Movement();
-
-        //TiltToAcceleration();
-        //lastVelocity = rb.linearVelocity / Time.deltaTime;
     }
 
     private void HandleDirection(Vector2 dir)
@@ -128,25 +138,44 @@ public class PlayerMovement : MonoBehaviour
     {
         return Physics.CheckSphere(groundCheck.position, groundCheckRadius, layerToHit);
     }
+
+    private void ResetJumpCounter()
+    {
+        if (isGrounded())
+        {
+            jumpCount = 0;
+            totalJumpForce = 0;
+        }
+    }
+
     private void HandleJump()
     {
-        if ((jumpPressed && isGrounded()))
+        if (jumpPressed && jumpCount < maxJump && totalJumpForce < maxJumpForce)
         {
-            //rb.linearVelocity = new Vector3(0, jumpForce, 0) * Time.deltaTime;
-            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-            Debug.Log("Jump is pressed!");
-            jumpPressed = false;
+            totalJumpForce += jumpForce * Time.deltaTime;
+            Debug.Log("TotalJump Force: " + totalJumpForce);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+            Debug.Log("Jumpcount is: " + jumpCount);
             jumpCooldownTimerValue = jumpCooldownTimer;
-
-            //OnJumpExecuted?.Invoke();
+            jumpBufferCounter = 0f;
         }
+    }
+
+    public void SetGravityScale(float scale)
+    {
+        rb.AddForce(Physics.gravity * scale, ForceMode.Acceleration);
     }
 
     private void JumpPressed()
     {
         if (jumpCooldownTimerValue > 0) return;
         jumpPressed = true;
-        HandleJump();
+    }
+
+    private void JumpReleased()
+    {
+        jumpCount++;
+        jumpPressed = false;
     }
 
     private void OnDrawGizmos()
