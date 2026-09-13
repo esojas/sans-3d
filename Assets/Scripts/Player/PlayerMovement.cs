@@ -161,11 +161,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void SetGravityScale(float scale)
-    {
-        rb.AddForce(Physics.gravity * scale, ForceMode.Acceleration);
-    }
-
     private void JumpPressed()
     {
         if (jumpCooldownTimerValue > 0) return;
