@@ -2,19 +2,26 @@ using UnityEngine;
 
 public class PlayerHeal : MonoBehaviour
 {
+    [SerializeField] private float healAmount = 41f;
     private PlayerHealth playerHealthScript;
 
+
+
+
     private void HealPlayer()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+    {//test
+        if (Input.GetKeyDown(KeyCode.H))
         {
-            //playerHealthScript.HealPlayer(41);
+
+            playerHealthScript.HealPlayer(healAmount);
+
         }
     }
 
     private void Awake()
     {
         playerHealthScript = GetComponent<PlayerHealth>();
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

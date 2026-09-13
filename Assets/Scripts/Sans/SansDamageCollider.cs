@@ -3,6 +3,7 @@ using UnityEngine;
 public class SansDamageCollider : MonoBehaviour
 {
     [SerializeField] private float karmaAttack = 6f;
+    [SerializeField] private float normalKarmaDrain = 1f;
 
     private PlayerKarma playerKarma;
 
@@ -17,7 +18,7 @@ public class SansDamageCollider : MonoBehaviour
     {
         if (other.gameObject.layer != 7) return;
         playerKarma = other.gameObject.GetComponent<PlayerKarma>();
-        playerKarma.ApplyKarmaDrainRate(1.5f);
+        playerKarma.ApplyKarmaDrainRate(normalKarmaDrain);
     }
 
     private void OnTriggerExit(Collider other)

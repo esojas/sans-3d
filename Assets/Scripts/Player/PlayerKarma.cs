@@ -11,13 +11,18 @@ public class PlayerKarma : MonoBehaviour
     private float karmaStack;
     private float karmaStackDrainRate;
     public bool isKarmaRefill;
+    public float karmaStackValue
+    {
+        get => poisonedHealthBar.value;
+        set => poisonedHealthBar.value = value;
+    }
 
     private void ApplyKarmaDamage()
     {
         Debug.Log("Applying karma damage with drain rate " + drainRate);
         poisonedHealthBar.value -= drainRate * Time.deltaTime;
         poisonedHealthBar.value = Mathf.Max(poisonedHealthBar.value, 0);
-        if (poisonedHealthBar.value <= playerHealth.health) isDraining = false;
+        if (poisonedHealthBar.value <= playerHealth.health ) isDraining = false;
     }
 
     public void ApplyKarmaDrainRate(float karma)

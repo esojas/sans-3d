@@ -1,11 +1,29 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private Color karmaColor;
     [SerializeField] private Slider healthBar;
     [SerializeField] private int maxHealth;
-    public float health { get; private set;}
+    private PlayerKarma playerKarmaScript;
+    public float health { get; private set; }
+
+    private void SetTextHealth()
+    {
+        if (playerKarmaScript.isDraining)
+        {
+            healthText.color = karmaColor;
+            healthText.text = $"{Mathf.RoundToInt(playerKarmaScript.karmaStackValue)}/{maxHealth}";
+        }
+        else
+        {
+            healthText.color = Color.white;
+            healthText.text = $"{Mathf.RoundToInt(playerKarmaScript.karmaStackValue)}/{maxHealth}";
+        }
+    }
 
     private void SetMaxHealth()
     {
@@ -22,9 +40,22 @@ public class PlayerHealth : MonoBehaviour
 
     public void HealPlayer(float heal)
     {
+        float healthBefore = health;
+
         health += heal;
 
         health = Mathf.Clamp(health, 0f, maxHealth);
+
+        if (playerKarmaScript.isDraining)
+        {
+            float karmaAmt = playerKarmaScript.karmaStackValue - healthBefore;
+            playerKarmaScript.karmaStackValue += karmaAmt + heal;
+            health -= karmaAmt;
+        }
+        else if (playerKarmaScript.karmaStackValue < healthBefore)
+        {
+            playerKarmaScript.karmaStackValue = health;
+        }
     }
 
     private void UpdateHealthBar()
@@ -34,6 +65,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
+        playerKarmaScript = GetComponent<PlayerKarma>();
         SetMaxHealth();
     }
 
@@ -47,5 +79,6 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
         UpdateHealthBar();
+        SetTextHealth();
     }
 }
