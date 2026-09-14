@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHeal : MonoBehaviour
 {
-    [SerializeField] private float healAmount = 41f;
+    [SerializeField] private float healAmount = 40f;
     private PlayerHealth playerHealthScript;
 
 
@@ -12,7 +12,7 @@ public class PlayerHeal : MonoBehaviour
     {//test
         if (Input.GetKeyDown(KeyCode.H))
         {
-
+            Debug.Log("Heal Key is pressed");
             playerHealthScript.HealPlayer(healAmount);
 
         }

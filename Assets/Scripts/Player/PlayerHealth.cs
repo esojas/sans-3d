@@ -16,12 +16,12 @@ public class PlayerHealth : MonoBehaviour
         if (playerKarmaScript.isDraining)
         {
             healthText.color = karmaColor;
-            healthText.text = $"{Mathf.RoundToInt(playerKarmaScript.karmaStackValue)}/{maxHealth}";
+            healthText.text = $"{Mathf.CeilToInt(playerKarmaScript.karmaStackValue)}/{maxHealth}";
         }
         else
         {
             healthText.color = Color.white;
-            healthText.text = $"{Mathf.RoundToInt(playerKarmaScript.karmaStackValue)}/{maxHealth}";
+            healthText.text = $"{Mathf.CeilToInt(playerKarmaScript.karmaStackValue)}/{maxHealth}";
         }
     }
 
@@ -42,20 +42,21 @@ public class PlayerHealth : MonoBehaviour
     {
         float healthBefore = health;
 
-        health += heal;
-
-        health = Mathf.Clamp(health, 0f, maxHealth);
-
         if (playerKarmaScript.isDraining)
         {
-            float karmaAmt = playerKarmaScript.karmaStackValue - healthBefore;
-            playerKarmaScript.karmaStackValue += karmaAmt + heal;
-            health -= karmaAmt;
+            float karmaDrainHeal = playerKarmaScript.karmaStackValue - health;
+            playerKarmaScript.karmaStackValue += heal;
+            playerKarmaScript.karmaStackValue = Mathf.Clamp(playerKarmaScript.karmaStackValue, 0f, maxHealth);
+            health = playerKarmaScript.karmaStackValue - karmaDrainHeal;
         }
-        else if (playerKarmaScript.karmaStackValue < healthBefore)
+        else
         {
+            Debug.Log("Healed");
+            health += heal;
             playerKarmaScript.karmaStackValue = health;
         }
+
+        health = Mathf.Clamp(health, 0f, maxHealth);
     }
 
     private void UpdateHealthBar()

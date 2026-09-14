@@ -19,7 +19,7 @@ public class PlayerKarma : MonoBehaviour
 
     private void ApplyKarmaDamage()
     {
-        Debug.Log("Applying karma damage with drain rate " + drainRate);
+        //Debug.Log("Applying karma damage with drain rate " + drainRate);
         poisonedHealthBar.value -= drainRate * Time.deltaTime;
         poisonedHealthBar.value = Mathf.Max(poisonedHealthBar.value, 0);
         if (poisonedHealthBar.value <= playerHealth.health ) isDraining = false;
@@ -28,7 +28,7 @@ public class PlayerKarma : MonoBehaviour
     public void ApplyKarmaDrainRate(float karma)
     {
         karmaStack += karma;
-        Debug.Log("Applied karma: " + karmaStack);
+        //Debug.Log("Applied karma: " + karmaStack);
         karmaStack = Mathf.Clamp(karmaStack, 0f, karmaMaxStack);
         if (karmaStack > 30) drainRate = 30;
         else if (karmaStack > 20f) drainRate = 12;  
