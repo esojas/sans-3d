@@ -14,12 +14,16 @@ public class PlayerControls : MonoBehaviour
     public event Action OnJumpReleased;
     public event Action OnPausePressed;
     public event Action OnUnPausedPressed;
+    public event Action OnAttackPressed;
+    public event Action OnAttackReleased;
 
     private InputAction moveAction;
     private InputAction interactAction;
     private InputAction jumpAction;
     private InputAction pauseAction;
     private InputAction onUnPausedAction;
+    private InputAction attackAction;
+
 
     private Action<InputAction.CallbackContext> onMovePerformed;
     private Action<InputAction.CallbackContext> onMoveCancelled;
@@ -28,7 +32,8 @@ public class PlayerControls : MonoBehaviour
     private Action<InputAction.CallbackContext> onJumpCancelled;
     private Action<InputAction.CallbackContext> onPausePerformed;
     private Action<InputAction.CallbackContext> onUnPausedPerformed;
-
+    private Action<InputAction.CallbackContext> onAttackPerformed;
+    private Action<InputAction.CallbackContext> onAttackCancelled;
 
     private void Awake()
     {
@@ -39,6 +44,7 @@ public class PlayerControls : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         jumpAction = InputSystem.actions.FindAction("Jump");
         pauseAction = InputSystem.actions.FindAction("PausedButton");
+        attackAction = InputSystem.actions.FindAction("Attack");
 
         onUnPausedAction = InputSystem.actions.FindAction("UnpausedButton");
 
@@ -52,6 +58,9 @@ public class PlayerControls : MonoBehaviour
 
         onPausePerformed = ctx => OnPausePressed?.Invoke();
 
+        onAttackPerformed = ctx => OnAttackPressed?.Invoke();
+        onAttackCancelled = ctx => OnAttackReleased?.Invoke();
+
         onUnPausedPerformed = ctx => OnUnPausedPressed?.Invoke();
     }
 
@@ -63,6 +72,8 @@ public class PlayerControls : MonoBehaviour
         jumpAction.performed += onJumpPerformed;
         jumpAction.canceled += onJumpCancelled;
         pauseAction.performed += onPausePerformed;
+        attackAction.performed += onAttackPerformed;
+        attackAction.canceled += onAttackCancelled;
 
         onUnPausedAction.performed += onUnPausedPerformed;
 
@@ -78,6 +89,8 @@ public class PlayerControls : MonoBehaviour
         jumpAction.performed -= onJumpPerformed;
         jumpAction.canceled -= onJumpCancelled;
         pauseAction.performed -= onPausePerformed;
+        attackAction.performed -= onAttackPerformed;
+        attackAction.canceled -= onAttackCancelled;
 
         onUnPausedAction.performed -= onUnPausedPerformed;
 

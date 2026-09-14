@@ -35,7 +35,15 @@ public class PlayerHealth : MonoBehaviour
     {
         health -= damage * (10 * Time.deltaTime);
 
-        health = Mathf.Clamp(health, 1f, maxHealth);
+        if (playerKarmaScript.karmaStackValue < 2f)
+        {
+            Debug.Log("dead");
+            health = 0;
+        }
+        else
+        {
+            health = Mathf.Clamp(health, 1f, maxHealth);
+        }
     }
 
     public void HealPlayer(float heal)
