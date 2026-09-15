@@ -10,7 +10,7 @@ public class GroundMovement : MonoBehaviour
     }
     private void MoveGround()
     {
-        rb.MovePosition(rb.position - PlayerMovement.Instance.newHorizontal * Time.fixedDeltaTime);
+        this.transform.position -= PlayerMovement.Instance.newHorizontal * Time.fixedDeltaTime;
     }
     private void FixedUpdate()
     {
