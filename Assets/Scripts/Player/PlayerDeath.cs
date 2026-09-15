@@ -52,7 +52,7 @@ public class PlayerDeath : MonoBehaviour
 
         //Instantiate(deathParticle, this.transform.position, Quaternion.identity);
 
-        playerMovement.deathThisFrame = true;
+        //playerMovement.deathThisFrame = true;
 
         StartCoroutine(WaitAndRespawn());
     }

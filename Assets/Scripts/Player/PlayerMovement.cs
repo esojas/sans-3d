@@ -4,24 +4,22 @@ using UnityEngine.InputSystem.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance { get; private set; }
+    public Vector3 newHorizontal { get; private set; }
     private PlayerControls playerControlScript;
-    private PlayerDeath playerDeathScript;
     Vector2 direction;
     Rigidbody rb;
-    Ray ray;
     bool jumpPressed = false;
     private float jumpCooldownTimerValue = 0f;
     private Vector3 lastVelocity;
     private int jumpCount = 0;
     private float jumpBufferCounter;
     private float totalJumpForce;
-    Vector3 newHorizontal;
 
     [SerializeField] private float movementSpeed;
     [SerializeField] private GameObject groundGameObject; // Change to this to make the floor move instead of the player
     [SerializeField] private float acceleration = 20f;
     [SerializeField] private float deceleration = 25f;
-    //[SerializeField] private float distanceToGround;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask layerToHit;
     [SerializeField] private Camera cam;
@@ -34,8 +32,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Collision")]
     [SerializeField] private Transform groundCheck;
 
-    public bool deathThisFrame = false;
-    public bool isVisible;
+    //public bool deathThisFrame = false;
+    //public bool isVisible;
 
     // For animator
     //public event Action OnJumpExecuted;
@@ -51,10 +49,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); 
+            return;
+        }
+        Instance = this;
+
         playerControlScript = GetComponent<PlayerControls>();
         rb = GetComponent<Rigidbody>();
         rb.maxDepenetrationVelocity = 2f;
-        playerDeathScript = GetComponent<PlayerDeath>();
     }
 
     void Start()
@@ -104,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         float rate = (inputDir.sqrMagnitude > 0.0001f) ? acceleration : deceleration;
         newHorizontal = Vector3.MoveTowards(newHorizontal, targetVelocity, rate * Time.fixedDeltaTime);
 
-        groundGameObject.transform.position -= newHorizontal * Time.fixedDeltaTime;
+        //groundGameObject.transform.position -= newHorizontal * Time.fixedDeltaTime;
 
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
 
