@@ -3,13 +3,29 @@ using UnityEngine;
 public class SansDodge : MonoBehaviour
 {
     public int sansDodgeAmt;
-    [SerializeField] private Vector3 dodgeDistance;
+    public bool isDodging;
+    [SerializeField] private Transform dodgeLocation;
     [SerializeField] private float dodgeSpeed;
+    [SerializeField] private GameObject parentObject;
 
-    public void DodgePlayer() 
+    private void DodgePlayer() 
     {
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + dodgeDistance, dodgeSpeed*Time.deltaTime);
+        if (!isDodging) return;
+        transform.SetParent(parentObject.transform);
+        transform.position = Vector3.Lerp(transform.position, dodgeLocation.position, dodgeSpeed*Time.deltaTime);
         Debug.LogWarning("DODGING!");
+    }
+
+    Transform FindChildWithTag(Transform parent, string tag)
+    {
+        foreach(Transform child in parent)
+        {
+            if (child.CompareTag(tag)) return child;
+
+            Transform found = FindChildWithTag(child, tag);
+            if(found != null) return found;
+        }
+        return null;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,6 +37,6 @@ public class SansDodge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        DodgePlayer();
     }
 }

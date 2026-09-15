@@ -4,11 +4,12 @@ public class PlayerAttackCollider : MonoBehaviour
 {
     private SansDodge sansDodgeScript;
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer != 8) return;
         sansDodgeScript = other.gameObject.GetComponent<SansDodge>();
-        sansDodgeScript.DodgePlayer();
+        sansDodgeScript.isDodging = true;
     }
 
     private void OnDrawGizmos()
