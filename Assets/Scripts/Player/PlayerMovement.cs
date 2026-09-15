@@ -15,8 +15,10 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCount = 0;
     private float jumpBufferCounter;
     private float totalJumpForce;
+    Vector3 newHorizontal;
 
     [SerializeField] private float movementSpeed;
+    [SerializeField] private GameObject groundGameObject; // Change to this to make the floor move instead of the player
     [SerializeField] private float acceleration = 20f;
     [SerializeField] private float deceleration = 25f;
     //[SerializeField] private float distanceToGround;
@@ -97,12 +99,14 @@ public class PlayerMovement : MonoBehaviour
         inputDir = Vector3.ClampMagnitude(inputDir, 1);
 
         Vector3 targetVelocity = inputDir * movementSpeed;
-        Vector3 currentHorizontal = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        //Vector3 currentHorizontal = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
 
         float rate = (inputDir.sqrMagnitude > 0.0001f) ? acceleration : deceleration;
-        Vector3 newHorizontal = Vector3.MoveTowards(currentHorizontal, targetVelocity, rate * Time.fixedDeltaTime);
+        newHorizontal = Vector3.MoveTowards(newHorizontal, targetVelocity, rate * Time.fixedDeltaTime);
 
-        rb.linearVelocity = new Vector3(newHorizontal.x, rb.linearVelocity.y, newHorizontal.z);
+        groundGameObject.transform.position -= newHorizontal * Time.fixedDeltaTime;
+
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
 
         // Flattened camera basis — also the character's facing basis, since yaw follows the camera
         Vector3 flatForward = camForward; flatForward.y = 0f;

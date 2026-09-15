@@ -2,8 +2,22 @@ using UnityEngine;
 
 public class DetectPlayerAttack : MonoBehaviour
 {
+    [SerializeField] private SansAttack sansAttackScript;
     bool playerCrossed;
 
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer != 7) return;
+        playerCrossed = true;
+        sansAttackScript.SansStartAttack();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer != 7) return;
+        playerCrossed = false;
+    }
 
     private void OnDrawGizmos()
     {
