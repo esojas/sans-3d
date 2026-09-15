@@ -16,6 +16,11 @@ public class SansDodge : MonoBehaviour
         Debug.LogWarning("DODGING!");
     }
 
+    private void CheckSansPosition()
+    {
+        if (transform.position == dodgeLocation.position) isDodging = false;
+    }
+
     Transform FindChildWithTag(Transform parent, string tag)
     {
         foreach(Transform child in parent)
@@ -37,6 +42,7 @@ public class SansDodge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckSansPosition();
         DodgePlayer();
     }
 }
