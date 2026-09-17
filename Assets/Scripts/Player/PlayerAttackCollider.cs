@@ -8,8 +8,7 @@ public class PlayerAttackCollider : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer != 8) return;
-        sansDodgeScript = other.gameObject.GetComponent<SansDodge>();
-        sansDodgeScript.isDodging = true;
+        other.gameObject.GetComponent<SansDodge>().StartDodge();
     }
 
     private void OnDrawGizmos()
