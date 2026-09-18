@@ -24,6 +24,11 @@ public class PlayerHealth : MonoBehaviour
             healthText.text = $"{Mathf.CeilToInt(playerKarmaScript.karmaStackValue)}/{maxHealth}";
         }
     }
+    
+    public void InstaDeath()
+    {
+        health = 0;
+    }
 
     private void SetMaxHealth()
     {
