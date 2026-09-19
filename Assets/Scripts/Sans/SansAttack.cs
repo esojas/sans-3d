@@ -1,12 +1,20 @@
+using System.Collections;
 using UnityEngine;
 
 public class SansAttack : MonoBehaviour
 {
-    public bool sansAttack;
+    public static bool sansAttack;
+    public static Transform Transform;
+
+    private void Awake()
+    {
+        Transform = transform;
+    }
 
     public void SansStartAttack()
     {
         sansAttack = true;
+        StartCoroutine(AttackDurationCoroutine());
     }
 
     public void SansStopAttack()
@@ -14,15 +22,10 @@ public class SansAttack : MonoBehaviour
         sansAttack = false;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    IEnumerator AttackDurationCoroutine()
     {
-        
+        yield return new WaitForSeconds(10f);
+        SansStopAttack();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

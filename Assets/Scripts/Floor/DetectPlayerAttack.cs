@@ -6,7 +6,12 @@ public class DetectPlayerAttack : MonoBehaviour
     [SerializeField] private SansAttack sansAttackScript;
     [SerializeField] private int playerCrossedMax = 1;
     private int playerCrossedCount;
+    public bool limitBackMovement;
 
+    private void Start()
+    {
+        sansAttackScript = GameObject.Find("Sans-Test").GetComponent<SansAttack>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,12 +19,15 @@ public class DetectPlayerAttack : MonoBehaviour
         if (this.playerCrossedCount >= playerCrossedMax) return;
         this.playerCrossedCount++;
         LimitBackMovement = false;
+        limitBackMovement = false;
         sansAttackScript.SansStartAttack();
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.layer != 7) return;
         LimitBackMovement = true;
+        limitBackMovement = true;
     }
 
     private void OnDrawGizmos()
